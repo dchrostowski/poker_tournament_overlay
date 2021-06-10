@@ -98,11 +98,10 @@ function StartPage(props) {
         return (
             <div className="tournament-list-wrapper">
                 <b>Useful links</b> <br/>
-                <a href="https://www.youtube.com/watch?v=_nQU_8Nm0Yk">onlyfans.com/cornbl4ster</a><br/>
-                <a href="https://twtich.tv/cornbl4ster">twitch.tv/cornbl4ster</a><br/>
+                <a href="https://www.youtube.com/watch?v=_nQU_8Nm0Yk">vibing cat</a><br/>
+                <a href="https://twitch.tv/cornbl4ster">twitch.tv/cornbl4ster</a><br/>
                 <a href="https://danchrostowski.com">danchrostowski.com</a><br/>
                 <a href="https://github.com/dchrostowski">github.com/dchrostowski</a> <br/>
-                <a href="https://twitter.com/cornbl4ster">twatter.com/cornbl4ster</a> <br/>
                 <br/>
                 <b>Poker Stream Overlays</b> <br/>
 
