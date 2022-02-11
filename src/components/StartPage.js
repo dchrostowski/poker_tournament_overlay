@@ -79,7 +79,10 @@ function StartPage(props) {
         const widgetType = query.get('widgetType')
         const series = query.get('series') || false
         if(uid) {
-            if(widgetType === 'ticker') {
+            if(uid === 'valheim') {
+                return <ValheimDemo />
+            }
+            else if(widgetType === 'ticker') {
                 return (
                     <div style={{backgroundColor: '#3b3a39'}}>
                     <StandingsTicker uid={uid}/>
@@ -111,7 +114,7 @@ function StartPage(props) {
                 <a href="https://twitch.tv/cornbl4ster">twitch.tv/cornbl4ster</a><br/>
                 <a href="https://danchrostowski.com">danchrostowski.com</a><br/>
                 <a href="https://github.com/dchrostowski">github.com/dchrostowski</a> <br/>
-                <a href="/valheim">valheim discord demo</a> <br/>
+                <a href="/?uid=valheim">valheim discord demo</a> <br/>
                 <br/>
                 <b>Poker Stream Overlays</b> <br/>
 
