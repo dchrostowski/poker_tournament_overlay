@@ -8,6 +8,7 @@ import {
   } from "react-router-dom";
 import StandingsTicker from './StandingsTicker'
 import StandingsTable from './StandingsTable'
+import ValheimDemo from './ValheimDemo'
 import './start.css'
   
 
@@ -45,12 +46,20 @@ function renderLinks(tlist) {
 
 
 function StartPage(props) {
+    
     let query = useQuery()
     useEffect(() => {
         props.getRunningTournaments()
     },[])
 
-    if(props.runningTournaments.isLoading) {
+    console.log("window location href")
+    console.log(window.location.href)
+
+    if(window.location.href.indexOf('valheim') !== -1) {
+        return (<ValheimDemo />)
+    }
+
+    else if(props.runningTournaments.isLoading) {
         return (
             <div className="tournament-list-wrapper">
                 Loading, please wait.
@@ -102,6 +111,7 @@ function StartPage(props) {
                 <a href="https://twitch.tv/cornbl4ster">twitch.tv/cornbl4ster</a><br/>
                 <a href="https://danchrostowski.com">danchrostowski.com</a><br/>
                 <a href="https://github.com/dchrostowski">github.com/dchrostowski</a> <br/>
+                <a href="/valheim">valheim discord demo</a> <br/>
                 <br/>
                 <b>Poker Stream Overlays</b> <br/>
 
