@@ -19,7 +19,7 @@ deploy_prod:
   variables:
     www_dir: "/var/www/cornblaster.com"
   tags:
-    - streetscrape
+    - cornblaster
   script:
     #- "curl -X POST -F token=ea99b96486c9b2fca5fe7cc6107392 -F ref=master https://git.streetscrape.com/api/v4/projects/43/trigger/pipeline"
     - "echo $www_dir"
