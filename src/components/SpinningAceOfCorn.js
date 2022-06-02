@@ -1,4 +1,4 @@
-import corn from '../images/corn.png'
+import corn from '../images/ace_of_corn.png'
 import './spinny_stuff.css'
 
 function SpinningCorn() {
@@ -7,7 +7,7 @@ function SpinningCorn() {
         
         <p>
           </p>
-          <div class="corn-container" style={{marginTop:50}}>
+          <div class="corn-container" style={{marginTop:100}}>
           <img src={corn} className="App-logo moving left-corn" alt="logo" />
           </div>
       </div>
