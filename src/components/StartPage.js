@@ -1,6 +1,7 @@
 import {connect} from 'react-redux'
 import React, {useEffect} from 'react'
 import {get_running_tournaments} from '../actions/actions'
+
 import {
     BrowserRouter as Router,
     Link,
@@ -9,8 +10,9 @@ import {
 import StandingsTicker from './StandingsTicker'
 import StandingsTable from './StandingsTable'
 import ValheimDemo from './ValheimDemo'
+import OverlayHome from './OverlayHome'
+
 import './start.css'
-  
 
 
   function useQuery() {
@@ -18,109 +20,46 @@ import './start.css'
   }
   
 
-function renderLinks(tlist) {
-    console.log(tlist)
-    
-
-    if(typeof tlist === 'undefined' || tlist.length === 0) return (<ul><li>No tournament are running</li></ul>)
-    
-    
-    const links = tlist.map((tinfo) => {
-        const {tournamentName, site, tournmaentId, uniqueId} = tinfo
-        const href1="/?uid=" + uniqueId + '&widgetType=' + 'ticker'
-        const href2="/?uid=" + uniqueId + '&widgetType=table'
-        return (
-            <ul>
-            <li>
-            <span>{tournamentName} ({site}): ( <Link to={href1}> Ticker</Link> | <Link to={href2}>Table</Link> )</span>
-           </li>
-           </ul>
-        )
-
-    })
-
-    return links
-}
 
 
 
 
 function StartPage(props) {
     
+    const location = useLocation()
     let query = useQuery()
-    useEffect(() => {
-        props.getRunningTournaments()
-    },[])
 
-    console.log("window location href")
-    console.log(window.location.href)
+    const path = location.pathname
 
-    if(window.location.href.indexOf('valheim') !== -1) {
+    
+
+
+    if(path.indexOf('valheim') !== -1) {
+        
         return (<ValheimDemo />)
     }
 
-    else if(props.runningTournaments.isLoading) {
-        return (
-            <div className="tournament-list-wrapper">
-                Loading, please wait.
-            </div>
-        )
+    else if(path.indexOf('overlays') !== -1) {
+        let sitePicked = 'none'
+        if(path.indexOf('stock') !== -1) sitePicked = 'stockpokeronline.com'
+        else if(path.indexOf('rounder') !== -1) sitePicked = 'roundercasino.com'
+        console.log("hey")
+        console.log(path.indexOf('/overlays'))
+        return <OverlayHome site={sitePicked}/>
+        
     }
 
-    else if(props.runningTournaments.isError) {
-            <div className="tournament-list-wrapper">
-                An error occurred: {props.runningTournaments.errorMessage}
-            </div>
-    }
-
-    else {
-
-        const uid = query.get('uid')
-        const widgetType = query.get('widgetType')
-        const series = query.get('series') || false
-        if(uid) {
-            if(uid === 'valheim') {
-                return <ValheimDemo />
-            }
-            else if(widgetType === 'ticker') {
-                return (
-                    <div style={{backgroundColor: '#3b3a39'}}>
-                    <StandingsTicker uid={uid}/>
-                    </div>
-                )
-            }
-            else if(widgetType === 'table') {
-                return (
-                    <StandingsTable uid={uid} series={series} />
-                )
-
-            }
-
-            else {
-                return (
-                    <div>Invalid widget or tournament id</div>
-                )
-            }
-
-            
-            
-            
-        }
-        else {
+     else {
         return (
             <div className="tournament-list-wrapper">
                 <b>Useful links</b> <br/>
-                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1qlNPiA-GZSrSKGnSeeP8GcCfeEfNmL0D22rJM8YsRrv-sgX3277et7D_jYBF14lUBsxZZKVSMBDa/pubhtml">stock tournament stats</a><br/>
+                <a href="/overlays">Standing Overlays for OBS / Twitch</a><br/>
+                <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1qlNPiA-GZSrSKGnSeeP8GcCfeEfNmL0D22rJM8YsRrv-sgX3277et7D_jYBF14lUBsxZZKVSMBDa/pubhtml">StockPoker Tournament Stats</a><br/>
                 <a href="https://twitch.tv/cornbl4ster">twitch.tv/cornbl4ster</a><br/>
-                
-                
-                <br/>
-                <b>Poker Stream Overlays</b> <br/>
 
-                Pick a tournament and click the corresponding link to see the overlay.  Add a browser source in OBS studio, copy the link as the source URL.
-                <ul>
-                {renderLinks(props.runningTournaments.data)}
-                </ul>
+                
+                
+                
             </div>
             
         )
@@ -128,19 +67,4 @@ function StartPage(props) {
     }
 
 
-}
-
-const mapStateToProps = state => ({
-    runningTournaments: state.running_tournaments
-})
-
-const mapDispatchToProps = dispatch => ({
-    getRunningTournaments: () => {
-        dispatch(get_running_tournaments())
-    }
-})
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(StartPage)
+export default StartPage

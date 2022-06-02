@@ -3,8 +3,8 @@ import axios from 'axios'
 import {GET_RUNNING_TOURNAMENTS, GET_TOURNAMENT_DATA} from './constants'
 
 
-export function get_running_tournaments() {
-    const request = axios.get('https://api.cornblaster.com/pokerdata/running')
+export function get_running_tournaments(site) {
+    const request = axios.get(`https://api.cornblaster.com/pokerdata/${site}/running`)
 
     return {
         type: GET_RUNNING_TOURNAMENTS,
