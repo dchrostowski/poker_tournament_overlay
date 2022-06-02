@@ -111,10 +111,9 @@ function StartPage(props) {
             <div className="tournament-list-wrapper">
                 <b>Useful links</b> <br/>
                 <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1qlNPiA-GZSrSKGnSeeP8GcCfeEfNmL0D22rJM8YsRrv-sgX3277et7D_jYBF14lUBsxZZKVSMBDa/pubhtml">stock tournament stats</a><br/>
-                <a href="https://www.youtube.com/watch?v=_nQU_8Nm0Yk">vibing cat</a><br/>
                 <a href="https://twitch.tv/cornbl4ster">twitch.tv/cornbl4ster</a><br/>
-                <a href="https://danchrostowski.com">danchrostowski.com</a><br/>
-                <a href="https://github.com/dchrostowski">github.com/dchrostowski</a> <br/>
+                
+                
                 <br/>
                 <b>Poker Stream Overlays</b> <br/>
 
