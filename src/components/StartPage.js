@@ -11,6 +11,7 @@ import StandingsTicker from './StandingsTicker'
 import StandingsTable from './StandingsTable'
 import ValheimDemo from './ValheimDemo'
 import OverlayHome from './OverlayHome'
+import SpinningCorn from './SpinningCorn'
 
 import './start.css'
 
@@ -20,10 +21,6 @@ import './start.css'
   }
   
 
-
-
-
-
 function StartPage(props) {
     
     const location = useLocation()
@@ -32,7 +29,9 @@ function StartPage(props) {
     const path = location.pathname
 
     
-
+    if(path.indexOf('corn') !== -1) {
+        return (<SpinningCorn/>)
+    }
 
     if(path.indexOf('valheim') !== -1) {
         
