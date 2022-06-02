@@ -1,6 +1,5 @@
-.Corn {
+.App {
   text-align: center;
-  margin-top: 50;
 }
 
 .App-logo {
@@ -14,10 +13,9 @@ div.fuckyou {
 
 }
 
-div.corn-container2 {
-    padding-top: 50;
+.corn-container {
+  text-align: center
 }
-
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

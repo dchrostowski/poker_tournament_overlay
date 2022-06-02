@@ -1,13 +1,13 @@
-import corn from '../images/ace_of_corn.png'
+import corn from '../images/corn.png'
 import './spinny_stuff.css'
 
-function SpinningAceOfCorn() {
+function SpinningCorn() {
     return (
-        <div className="Corn">
+        <div className="App">
         
         <p>
           </p>
-          <div class="corn-container2" style={{marginTop:70}}>
+          <div class="corn-container" style={{marginTop:50}}>
           <img src={corn} className="App-logo moving left-corn" alt="logo" />
           </div>
       </div>
@@ -15,4 +15,4 @@ function SpinningAceOfCorn() {
     )
 }
 
-export default SpinningAceOfCorn
+export default SpinningCorn
