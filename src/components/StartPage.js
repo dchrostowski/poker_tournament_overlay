@@ -12,6 +12,7 @@ import StandingsTable from './StandingsTable'
 import ValheimDemo from './ValheimDemo'
 import OverlayHome from './OverlayHome'
 import SpinningCorn from './SpinningCorn'
+import SpinningAceOfCorn from './SpinningAceOfCorn'
 
 import './start.css'
 
@@ -28,8 +29,12 @@ function StartPage(props) {
 
     const path = location.pathname
 
+    if(path.indexOf('/aceofcorn') !== -1)  {
+        return (<SpinningAceOfCorn/>)
+    }
+
     
-    if(path.indexOf('corn') !== -1) {
+    if(path.indexOf('/corn') !== -1) {
         return (<SpinningCorn/>)
     }
 
