@@ -1,6 +1,6 @@
 import {connect} from 'react-redux'
 import React, {useEffect} from 'react'
-import {get_running_tournaments, get_registering_tournaments} from '../actions/actions'
+import {get_running_tournaments} from '../actions/actions'
 import {
     BrowserRouter as Router,
     Link,
@@ -19,7 +19,7 @@ import './start.css'
   }
   
 
-function renderRunningLinks(tlist) {
+function renderLinks(tlist) {
     console.log(tlist)
     
 
@@ -43,30 +43,6 @@ function renderRunningLinks(tlist) {
     return links
 }
 
-function renderRegisteringLinks(tlist) {
-    console.log(tlist)
-    
-
-    if(typeof tlist === 'undefined' || tlist.length === 0) return (<ul><li>No tournament are running</li></ul>)
-    
-    
-    const links = tlist.map((tinfo) => {
-        const {tournamentName, site, tournmaentId, uniqueId} = tinfo
-        const href1=`/overlays/${site}/?uid=${uniqueId}&widgetType=ticker&reg=1`
-        const href2=`/overlays/${site}/?uid=${uniqueId}&widgetType=table&reg=1`
-        return (
-            <ul>
-            <li>
-            <span>{tournamentName} ({site}): ( <Link to={href1}> Ticker</Link> | <Link to={href2}>Table</Link> )</span>
-           </li>
-           </ul>
-        )
-
-    })
-
-    return links
-}
-
 
 
 
@@ -77,30 +53,17 @@ function OverlayHome(props) {
     useEffect(() => {
 
         props.getRunningTournaments(props.site)
-        props.getRegisteringTournaments(props.site)
     },[])
 
     const renderTournaments = () => {
         if (siteChosen) {
             return (
                 <div>
-                <div>
                     <a href="/overlays"> &lt; Back</a><br/>
-                    Pick a tournament and click the corresponding link to see the overlay.  Add a browser source in OBS studio, copy the link as the source URL.<br/>
-                    
+                    Pick a tournament and click the corresponding link to see the overlay.  Add a browser source in OBS studio, copy the link as the source URL.
                 <ul>
-                <span style={{fontWeight:'bold', fontSize:48}}>Running Tournaments:</span>
-                {renderRunningLinks(props.runningTournaments.data)}
+                {renderLinks(props.runningTournaments.data)}
                 </ul>
-                </div>
-                
-                <div>
-                    
-                <ul>
-                <span style={{fontWeight:'bold', fontSize:48}}>Registering Tournaments:</span>
-                {renderRegisteringLinks(props.registeringTournaments.data)}
-                </ul>
-                </div>
                 </div>
             )
         }
@@ -118,7 +81,7 @@ function OverlayHome(props) {
 
 
 
-    if(props.runningTournaments.isLoading || props.registeringTournaments.isLoading) {
+    if(props.runningTournaments.isLoading) {
         return (
             <div className="tournament-list-wrapper">
                 Loading, please wait.
@@ -126,7 +89,7 @@ function OverlayHome(props) {
         )
     }
 
-    else if(props.runningTournaments.isError || props.registeringTournaments.isError) {
+    else if(props.runningTournaments.isError) {
             <div className="tournament-list-wrapper">
                 An error occurred: {props.runningTournaments.errorMessage}
             </div>
@@ -181,16 +144,12 @@ function OverlayHome(props) {
 }
 
 const mapStateToProps = state => ({
-    runningTournaments: state.running_tournaments,
-    registeringTournaments: state.registering_tournaments
+    runningTournaments: state.running_tournaments
 })
 
 const mapDispatchToProps = dispatch => ({
     getRunningTournaments: (site) => {
         dispatch(get_running_tournaments(site))
-    },
-    getRegisteringTournaments: (site) => {
-        dispatch(get_registering_tournaments(site))
     }
 })
 
