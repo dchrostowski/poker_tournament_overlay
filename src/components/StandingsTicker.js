@@ -154,7 +154,7 @@ function StandingsTicker(props) {
 
     return (
         <div style={{backgroundColor: '#3b3a39'}}>
-        <Ticker offset="run-in" speed={5}>
+        <Ticker offset="run-in" speed={8}>
             {(index) => <StandingsData index={index} tState={tstate} uid={uid} />}
         </Ticker>
         </div>
