@@ -2,21 +2,61 @@ import React, {useEffect,useState} from 'react'
 import Ticker from 'react-ticker'
 import axios from 'axios'
 import './ticker.css'
+import {useLocation} from 'react-router-dom'
 
 
-async function makeAPICall(uid) {
-    const uri = 'https://api.cornblaster.com/pokerdata/running/' + uid
-    const response = await axios.get(uri)
-    return response.data
+async function makeAPICall(uid, tState) {
+    console.log('make api call')
+    
+    if(uid && tState) {
+        const uri = `https://api.cornblaster.com/pokerdata/${tState}/${uid}`
+        const response = await axios.get(uri)
+        return response.data
+    }
+    
 }
 
-const generateElements = ((data) => {
+const generateElementsRegistration = ( (tourneyData) => {
+    console.log("gen elements2")
+    console.log(tourneyData.startDate)
+    const startDate = new Date(tourneyData.startDate?.$date).toLocaleString()
+    console.log(startDate)
+    const messages = [tourneyData.tournamentName, `Starting ${startDate}`, `${tourneyData.site}`, `Registerd players: ${tourneyData?.players?.length || 0}`]
+        if(tourneyData?.players?.length > 0) {
+            for(let i=0;i<tourneyData.players.length;i++) {
+                messages.push(`Entrant #${i+1}: ${tourneyData.players[i].playerName}`)
+            }
+        }
+        messages.push('','','')
+
+        return messages.map((message) => {
+            return (
+                
+                <p className="ticker-data">{message}</p>
+                
+            )
+        })
+
+
+})
+
+const generateElementsRunning = ((data) => {
     let i = 0
-    console.log("DATA IS")
-    console.log(data)
+
+    const playersStatus = `${data.players.filter(p => p.chips > 0).length} of ${data.players.length} players remain.`
+    
+    
+    const startTickerData = [' ',' ',' ', data.tournamentName, playersStatus]
+
+    const beginTicker = startTickerData.map(d => {
+        return (
+            <div className="wrapper-data">
+            <p className="ticker-data">{d}</p>
+            </div>
+        )
+    })
     
     const players = data.players.map((d) => {
-        console.log("d is ", d)
         i = i + 1   
         if(d.chips > 0) { 
             return  (
@@ -28,12 +68,13 @@ const generateElements = ((data) => {
             )
         }
         else {
-            console.log("else here")
+            const eliminationStatus = d.totalPrize > 0 ?   `Eliminated ($${d.totalPrize})` : 'Eliminated'
+            
             return (
                 <div className="wrapper-data">
                 <p className="ticker-data">{i}.</p>
                 <p className="ticker-data">{d.playerName}:</p>
-                <p className="ticker-data">Eliminated</p>
+                <p className="ticker-data">${eliminationStatus}</p>
                 </div>
     
             )
@@ -41,32 +82,41 @@ const generateElements = ((data) => {
       })
       
     
-      return players
+      return beginTicker.concat(players)
 })
 
 
 const StandingsData = (props) => {
     const [tourneyData, setTData] = useState("")
-    const {uid,index} = props
+    const {uid,index,tState} = props
+    
+    
 
     useEffect(() => {
-        async function fetchData(uid) {
-            const apiData = await makeAPICall(uid)
-            console.log(apiData)
+        async function fetchData(uid,tState) {
+            const apiData = await makeAPICall(uid,tState)
             setTData(apiData)
         }
-        fetchData(uid)
+        fetchData(uid,tState)
 
-    },[])
+    },[uid,tState])
 
     
     let pElements = [<p className="ticker-data">No tournament data found. Find a ticker URL at &nbsp; <a style={{color:'white'}} href="https://cornblaster.com">cornblaster.com</a>.</p> ]
-    
-    if(tourneyData != null && tourneyData.hasOwnProperty('players')) {
-        pElements = generateElements(tourneyData)
+
+    if(tourneyData !== null && tourneyData.tournamentState === 'registering') {
+        pElements = generateElementsRegistration(tourneyData)
+        
     }
-    let moddedIndex = index.index % pElements.length
-    console.log("modded index: ", moddedIndex)
+    
+    else if(tourneyData != null && tourneyData.hasOwnProperty('players') && tourneyData.players.length > 0) {
+        pElements = generateElementsRunning(tourneyData)
+    }
+
+    
+
+
+    let moddedIndex = (index.index % pElements.length) || 0
 
     return (
         <div className="wrapper-data">{pElements[moddedIndex]}</div>
@@ -80,12 +130,13 @@ const StandingsData = (props) => {
 
 
 function StandingsTicker(props) {
-    const {uid} = props
+    const {uid,tstate} = props
+
 
     
     return (
         <Ticker offset="run-in" speed={5}>
-            {(index) => <StandingsData index={index} uid={uid} tData={props.tournamentData} />}
+            {(index) => <StandingsData index={index} tState={tstate} uid={uid} tData={props.tournamentData} />}
         </Ticker>
         )
     

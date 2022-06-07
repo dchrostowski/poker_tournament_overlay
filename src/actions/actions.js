@@ -21,8 +21,8 @@ export function get_registering_tournaments(site) {
     }
 }
 
-export function get_tournament_data(uid) {
-    const request = axios.get(`https://api.cornblaster.com/pokerdata/running/${uid}`)
+export function get_tournament_data(uid,tstate) {
+    const request = axios.get(`https://api.cornblaster.com/pokerdata/${tstate}/${uid}`)
     return {
         type: GET_TOURNAMENT_DATA,
         payload: request

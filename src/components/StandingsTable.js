@@ -4,6 +4,7 @@ import React, {useEffect} from 'react'
 import {get_tournament_data, get_spo_tournament_data} from '../actions/actions'
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
+import SpinningAceOfCorn from './SpinningAceOfCorn';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -11,6 +12,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import './table.css'
+import {useLocation} from 'react-router-dom'
 
 const useStyles = makeStyles({
   table: {
@@ -28,8 +30,49 @@ function blankRows() {
 }
 
 
-function createTable(rows, tname, remaining, total, classes) {
-    
+function createTable(rows, tname, remaining, total, props, classes) {
+  const tourneyData = props.tournamentData.data
+  const tState = tourneyData.tournamentState
+ 
+
+  if(tState === 'registering') {
+    const startDate = new Date(tourneyData.startDate?.$date).toLocaleString()
+    const playerInfo = `Players registered: ${tourneyData.players.length}`
+    return (
+      <div className="tableWrapper">
+        <div className="jss155 jss157">
+        <div className="jss154">
+
+        <TableContainer  component={Paper} style={{border:3,borderStyle:'solid', borderColor:'white'}}>
+        <div className="top-span"><span className={classes.table}><center><b>{tname} - Registering</b></center></span></div>  
+      <Table className={classes.table} aria-label="simple table">
+      
+        <TableHead>
+          <TableRow>
+            <TableCell align="center"><b>{tname}</b></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+            <TableRow>
+              <TableCell align="center">
+                Starting at: {startDate}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell align="center">
+                {playerInfo}
+              </TableCell>
+            </TableRow>
+          
+        </TableBody>
+      </Table>
+    </TableContainer>
+    </div>
+    </div>
+    </div>
+    )
+
+  }
     
     return (
       <div className="tableWrapper">
@@ -68,17 +111,25 @@ function createTable(rows, tname, remaining, total, classes) {
     )
 }
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
 function StandingsTable(props) {
-    const {uid} = props
-    const {tournamentData} = mapStateToProps
+    const query = useQuery()
+    const {uid,tstate} = props
+
+    console.log("uid is " + uid)
+    console.log("tstate is " + tstate)
+
     useEffect(() => {
 
-      props.getTournamentData(uid)
+      props.getTournamentData(uid,tstate)
         try {
             setInterval(async () => {
 
-                props.getTournamentData(uid)
-            }, 60000)
+                props.getTournamentData(uid,tstate)
+            }, 30000)
 
         }
         catch(e) {
@@ -86,24 +137,19 @@ function StandingsTable(props) {
         }
         
     }, [])
-
-    console.log("props.tourndata:")
-    console.log(props.tournamentData)
-    console.log("/props.tourndata")
     const classes = useStyles();
 
     
 
 
     if(props.tournamentData.isLoading) {
-        const blankData = blankRows()
         return (
-          <div>{createTable([], "Refreshing...", 0,0, classes)}</div>
+          <SpinningAceOfCorn/>
         )
     }
     else if (props.tournamentData.isError) {
         return (
-            <div>{props.tournament_data.errorMessage}</div>
+            <div>An error occurred while loading the table.  Try refreshing.</div>
         )
     }
 
@@ -118,15 +164,12 @@ function StandingsTable(props) {
         const remaining = players.filter(player => player.chips > 0)
         return (
         <div>
-         {createTable(players.splice(0,9), tournamentName, remaining.length, total, classes)}
+         {createTable(players.splice(0,9), tournamentName, remaining.length, total, props, classes)}
          </div>
         )
 
       }
       else {
-            console.log("--------------")
-            console.log(props.tournamentData)
-            console.log("-------------")
             return (
               <div className="tableWrapper">
               <div className="jss155 jss157">
@@ -152,8 +195,8 @@ const mapStateToProps = state => ({
   })
   
   const mapDispatchToProps = dispatch => ({
-    getTournamentData: (uid) => {
-      dispatch(get_tournament_data(uid))
+    getTournamentData: (uid,tstate) => {
+      dispatch(get_tournament_data(uid,tstate))
     }
   })
 

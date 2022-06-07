@@ -1,31 +1,28 @@
-import {connect} from 'react-redux'
-import React, {useEffect} from 'react'
-import {get_running_tournaments} from '../actions/actions'
+
+import React from 'react'
+import './ticker.css'
+
 
 import {
-    BrowserRouter as Router,
-    Link,
     useLocation
   } from "react-router-dom";
-import StandingsTicker from './StandingsTicker'
-import StandingsTable from './StandingsTable'
+
 import ValheimDemo from './ValheimDemo'
-import OverlayHome from './OverlayHome'
+import OverlayHome from './OverlayHome2'
 import SpinningCorn from './SpinningCorn'
 import SpinningAceOfCorn from './SpinningAceOfCorn'
+import StandingsTicker from './StandingsTicker';
 
 import './start.css'
 
 
-  function useQuery() {
-    return new URLSearchParams(useLocation().search);
-  }
+  
   
 
-function StartPage(props) {
+function StartPage() {
     
     const location = useLocation()
-    let query = useQuery()
+    console.log(location)
 
     const path = location.pathname
 
@@ -47,15 +44,16 @@ function StartPage(props) {
         let sitePicked = 'none'
         if(path.indexOf('stock') !== -1) sitePicked = 'stockpokeronline.com'
         else if(path.indexOf('rounder') !== -1) sitePicked = 'roundercasino.com'
-        console.log("hey")
-        console.log(path.indexOf('/overlays'))
         return <OverlayHome site={sitePicked}/>
         
     }
 
      else {
         return (
+            <div>
+            <StandingsTicker uid="RC_95667645" tstate="running" tournamentData={[]}/>    
             <div className="tournament-list-wrapper">
+            
                 <b>Useful links</b> <br/>
                 <a href="/overlays">Standing Overlays for OBS / Twitch</a><br/>
                 <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1qlNPiA-GZSrSKGnSeeP8GcCfeEfNmL0D22rJM8YsRrv-sgX3277et7D_jYBF14lUBsxZZKVSMBDa/pubhtml">StockPoker Tournament Stats</a><br/>
@@ -64,6 +62,7 @@ function StartPage(props) {
                 
                 
                 
+            </div>
             </div>
             
         )
