@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import './start.css'
 import {useLocation} from 'react-router-dom'
 import TournamentList from './TournamentList'
+import StandingsTicker from './StandingsTicker'
 import { get_registering_tournaments, get_running_tournaments } from '../actions/actions'
 
 
@@ -46,20 +47,24 @@ function OverlayHome(props) {
 
     if(listProps.nickName === 'stock') {
         return(
-            <TournamentList site={listProps.nickName} runningTournaments={props.runningTournaments} registeringTournaments={props.registeringTournaments}></TournamentList>
+            <TournamentList randomTournament={props.randomTournament} site={listProps.nickName} runningTournaments={props.runningTournaments} registeringTournaments={props.registeringTournaments}></TournamentList>
         )
         
     }
 
     else if(listProps.nickName === 'rounder') {
         return(
-            <TournamentList site={listProps.nickName} runningTournaments={props.runningTournaments} registeringTournaments={props.registeringTournaments}></TournamentList>
+            <TournamentList randomTournament={props.randomTournament} site={listProps.nickName} runningTournaments={props.runningTournaments} registeringTournaments={props.registeringTournaments}></TournamentList>
         )
         
     }
     else {
         return ( 
             
+            <div>
+                {props.randomTournament?.data?.uid &&
+                <StandingsTicker uid={props.randomTournament.data.uid} tstate={props.randomTournament.data.tstate} tournamentData={{}}></StandingsTicker>
+                }
             <div className="tournament-list-wrapper">
             
             <span><b>Choose a site</b> <br/></span>
@@ -68,6 +73,7 @@ function OverlayHome(props) {
                 <a href="/overlays/rounder">RounderCasino</a><br/>
                 <a href="/">&lt;Back</a><br/>
             
+            </div>
             </div>
             )    
 

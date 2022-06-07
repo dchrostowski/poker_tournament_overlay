@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import {GET_RUNNING_TOURNAMENTS, GET_REGISTERING_TOURNAMENTS, GET_TOURNAMENT_DATA} from './constants'
+import {GET_RUNNING_TOURNAMENTS, GET_REGISTERING_TOURNAMENTS, GET_TOURNAMENT_DATA, GET_RANDOM_TOURNAMENT} from './constants'
 
 
 export function get_running_tournaments(site) {
@@ -22,6 +22,7 @@ export function get_registering_tournaments(site) {
 }
 
 export function get_tournament_data(uid,tstate) {
+    console.log("uid is " + uid)
     const request = axios.get(`https://api.cornblaster.com/pokerdata/${tstate}/${uid}`)
     return {
         type: GET_TOURNAMENT_DATA,
@@ -36,6 +37,14 @@ export function get_spo_tournament_data() {
         payload: request
     }
 
+}
+
+export function get_random_tournament() {
+    const request = axios.get('https://api.cornblaster.com/pokerdata/random_uid')
+    return {
+        type: GET_RANDOM_TOURNAMENT,
+        payload: request
+    }
 }
 
 

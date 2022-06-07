@@ -1,12 +1,12 @@
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './ticker.css'
 
 
 import {
     useLocation
   } from "react-router-dom";
-
+import {connect} from 'react-redux'
 import ValheimDemo from './ValheimDemo'
 import OverlayHome from './OverlayHome2'
 import SpinningCorn from './SpinningCorn'
@@ -14,12 +14,25 @@ import SpinningAceOfCorn from './SpinningAceOfCorn'
 import StandingsTicker from './StandingsTicker';
 
 import './start.css'
+import { get_random_tournament, get_tournament_data } from '../actions/actions';
 
 
   
   
 
-function StartPage() {
+function StartPage(props) {
+
+       
+        
+    
+
+    useEffect(() => {
+        props.getRandomTournament()
+
+
+    },[])
+
+    
     
     const location = useLocation()
     console.log(location)
@@ -44,14 +57,19 @@ function StartPage() {
         let sitePicked = 'none'
         if(path.indexOf('stock') !== -1) sitePicked = 'stockpokeronline.com'
         else if(path.indexOf('rounder') !== -1) sitePicked = 'roundercasino.com'
-        return <OverlayHome site={sitePicked}/>
+        return <OverlayHome randomTournament={props.randomTournament} site={sitePicked}/>
         
     }
 
      else {
+         console.log("HERE")
+         console.log(props.randomTournament)
         return (
             <div>
-            <StandingsTicker uid="RC_95667645" tstate="running" tournamentData={[]}/>    
+                {props.randomTournament?.data?.uid &&
+                <StandingsTicker uid={props.randomTournament.data.uid} tstate={props.randomTournament.data.tstate} tournamentData={{}}></StandingsTicker>
+                }
+            
             <div className="tournament-list-wrapper">
             
                 <b>Useful links</b> <br/>
@@ -70,4 +88,22 @@ function StartPage() {
     }
 
 
-export default StartPage
+    const mapStateToProps = state => ({
+        randomTournament: state.random_tournament,
+        tournamentData: state.tournament_data
+    })
+    
+    const mapDispatchToProps = dispatch => ({
+        getTournamentData: (uid,tstate) => {
+            dispatch(get_tournament_data(uid,tstate))
+        },
+        getRandomTournament: () => {
+            dispatch(get_random_tournament())
+        },
+        
+    })
+    
+    export default connect(
+        mapStateToProps,
+        mapDispatchToProps,
+    )(StartPage)
