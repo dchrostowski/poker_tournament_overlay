@@ -78,7 +78,7 @@ const generateElementsRunning = ((data) => {
                 <div className="wrapper-data">
                     <p className="ticker-data">{i}.</p>
                     <p className="ticker-data">{d.playerName}:</p>
-                    <p className="ticker-data">${eliminationStatus}</p>
+                    <p className="ticker-data">{eliminationStatus}</p>
                 </div>
 
             )
