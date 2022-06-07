@@ -72,7 +72,8 @@ const generateElementsRunning = ((data) => {
             )
         }
         else {
-            const eliminationStatus = d.totalPrize > 0 ? `Eliminated ($${d.totalPrize})` : 'Eliminated'
+            const usd = Intl.NumberFormat("en-US", { style: "currency", currency: "USD"})
+            const eliminationStatus = d.totalPrize > 0 ? `Eliminated (${usd.format(d.totalPrize)})` : 'Eliminated'
 
             return (
                 <div className="wrapper-data">
@@ -154,7 +155,7 @@ function StandingsTicker(props) {
 
     return (
         <div style={{backgroundColor: '#3b3a39'}}>
-        <Ticker offset="run-in" speed={8}>
+        <Ticker offset="run-in" speed={10}>
             {(index) => <StandingsData index={index} tState={tstate} uid={uid} />}
         </Ticker>
         </div>
