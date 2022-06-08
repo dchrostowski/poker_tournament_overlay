@@ -6,10 +6,10 @@ import { useLocation } from 'react-router-dom'
 
 
 async function makeAPICall(uid, tState) {
-    console.log('make api call')
-    console.log(uid)
-    console.log(tState)
-    console.log("-------------------")
+
+
+
+
 
     if (uid && tState) {
 
@@ -21,10 +21,10 @@ async function makeAPICall(uid, tState) {
 }
 
 const generateElementsRegistration = ((tourneyData) => {
-    console.log("gen elements2")
-    console.log(tourneyData.startDate)
-    const startDate = new Date(tourneyData.startDate?.$date).toLocaleString()
-    console.log(startDate)
+
+
+   const startDate = new Date(tourneyData.startDate?.$date).toLocaleString()
+
     const messages = [tourneyData.tournamentName, `Starting ${startDate}`, `${tourneyData.site}`, `Registerd players: ${tourneyData?.players?.length || 0}`]
     if (tourneyData?.players?.length > 0) {
         for (let i = 0; i < tourneyData.players.length; i++) {
@@ -124,14 +124,14 @@ const StandingsData = (props) => {
         }
 
     } catch (err) {
-        console.log('hi')
+
     }
 
 
 
-    console.log('here"')
 
-    console.log(pElements)
+
+
     let moddedIndex = (index.index % pElements.length) || 0
 
     return (
@@ -147,9 +147,9 @@ const StandingsData = (props) => {
 
 function StandingsTicker(props) {
     const { uid, tstate } = props
-    console.log("HHDHDHDHHD")
-    console.log(tstate)
-    console.log(props.tournamentData)
+
+
+
 
 
 

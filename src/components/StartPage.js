@@ -35,7 +35,7 @@ function StartPage(props) {
     
     
     const location = useLocation()
-    console.log(location)
+
 
     const path = location.pathname
 
@@ -62,8 +62,8 @@ function StartPage(props) {
     }
 
      else {
-         console.log("HERE")
-         console.log(props.randomTournament)
+
+
         return (
             <div>
                 {props.randomTournament?.data?.uid &&

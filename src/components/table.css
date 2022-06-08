@@ -114,3 +114,7 @@ td.MuiTableCell-body {
     color: white;
     font-weight: 600;
 }
+
+span.tourn-date {
+    font-family: 'Roboto Condensed', sans-serif;
+}

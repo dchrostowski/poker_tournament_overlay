@@ -44,15 +44,54 @@ function TournamentList(props) {
         const links = tournamentList.map((tinfo) => {
 
 
-            const { tournamentName, site, uniqueId, tournamentState } = tinfo
+            const { tournamentName, site, uniqueId, tournamentState, startDate } = tinfo
+
+
+            
+            const sdo = new Date(startDate?.$date)
+            const today = new Date()
+            let formatted
+
+            
+
+            if(sdo.toDateString() === today.toDateString()) {
+                let dayDescriptor
+                if(sdo.getHours() > 18 || sdo.getHours() <= 3) {
+                    dayDescriptor = "Tonight"
+                }
+                else {
+                    dayDescriptor = "Today"
+                }
+
+                formatted = `${dayDescriptor} at ${sdo.toLocaleTimeString()}`
+            }
+            else {
+                let monthDay = ''
+                const diffInMs =  Math.abs(sdo - today)
+                const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+                if(diffInDays > 1.6) monthDay = `${sdo.getMonth()+1}/${sdo.getDate()}`
+                
+                 formatted = "(" + sdo.toLocaleString('default', {weekday: 'long'}) + ` ${monthDay} at ${sdo.toLocaleTimeString()} `
+            }
+            
+            
             const href1 = `/overlays/${site}/?uid=${uniqueId}&widgetType=ticker&tstate=${tournamentState}`
             const href2 = `/overlays/${site}/?uid=${uniqueId}&widgetType=table&tstate=${tournamentState}`
             return (
+                <div>
+                <style>
+                    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&amp;family=Teko&amp;display=swap')
+                </style> 
                 <ul>
                     <li>
-                        <span>{tournamentName} ({site}): ( <Link to={href1}> Ticker</Link> | <Link to={href2}>Table</Link> )</span>
+                        <div style={{flex:1}}>
+                        <div><span style={{fontFamily:"Times New Roman serif",fontSize:28, fontWeight:'bold'}}>{tournamentName}</span></div>
+                        <div style={{align:'right',marginTop:-15, marginBottom:15,marginRight:0}}><span style={{fontSize:26, fontFamily:"Roboto condensed", fontWeight:'bold'}}>
+                            {formatted} - [ <Link to={href1}>Ticker</Link> | <Link to={href2}>Table</Link> ] )</span></div>
+                        </div>
                     </li>
                 </ul>
+                </div>
             )
 
         })
@@ -100,23 +139,21 @@ function TournamentList(props) {
                         <div>
                             <a href="/overlays"> &lt; Back</a><br />
                             Pick a tournament and click the corresponding link to see the overlay.  Add a browser source in OBS studio, copy the link as the source URL.<br />
-
-                            <ul>
-                                <span style={{ fontWeight: 'bold', fontSize: 48 }}>Running Tournaments:</span>
-                                {renderLinks(props.runningTournaments.data)}
+                            <ul style={{marginTop:0}}>
+                            
                             </ul>
-                        </div>
-
-                        <div>
-
-                            <ul>
-                                <span style={{ fontWeight: 'bold', fontSize: 48 }}>Registering Tournaments:</span>
+                                <ul style={{marginTop:-10}}>
+                                <span style={{fontFamily: "Times New Roman", fontWeight: 'bold', fontSize: 40, marginLeft:-4 }}>Running Tournaments:</span>
+                                {renderLinks(props.runningTournaments.data)}
+                                </ul><br/>
+                            <ul style={{marginTop:-10}}>
+                                <span style={{fontFamily: "Times New Roman", fontWeight: 'bold', fontSize: 40, marginLeft:-4 }}>Registering Tournaments:</span>
                                 {renderLinks(props.registeringTournaments.data)}
                             </ul>
                         </div>
                     </div>
-
                 </div>
+
             </div>
         )
     }

@@ -32,6 +32,8 @@ function blankRows() {
 
 function createTable(rows, tname, remaining, total, props, classes) {
   const tourneyData = props.tournamentData.data
+
+
   const tState = tourneyData.tournamentState
  
 
@@ -119,8 +121,8 @@ function StandingsTable(props) {
     const query = useQuery()
     const {uid,tstate} = props
 
-    console.log("uid is " + uid)
-    console.log("tstate is " + tstate)
+
+
 
     useEffect(() => {
 
@@ -133,7 +135,7 @@ function StandingsTable(props) {
 
         }
         catch(e) {
-            console.log(e)
+
         }
         
     }, [])

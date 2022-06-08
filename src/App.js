@@ -15,7 +15,7 @@ import { TestComponent } from './components/TestComponent';
 const store = createStore()
 
 function App(props) {
-  console.log(props.tournamentData)
+
 
   return (
     <Provider store={store}>
