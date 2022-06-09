@@ -73,7 +73,7 @@ const generateElementsRunning = ((data) => {
         }
         else {
             const usd = Intl.NumberFormat("en-US", { style: "currency", currency: "USD"})
-            const eliminationStatus = d.totalPrize > 0 ? `Eliminated (${usd.format(d.totalPrize)})` : 'Eliminated'
+            const eliminationStatus = d.totalPrize > 0 ? `Wins ${usd.format(d.totalPrize)}` : 'Eliminated'
 
             return (
                 <div className="wrapper-data">
