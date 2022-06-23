@@ -76,6 +76,8 @@ function StartPage(props) {
                 <a href="/overlays">Standing Overlays for OBS / Twitch</a><br/>
                 <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1qlNPiA-GZSrSKGnSeeP8GcCfeEfNmL0D22rJM8YsRrv-sgX3277et7D_jYBF14lUBsxZZKVSMBDa/pubhtml">StockPoker Tournament Stats</a><br/>
                 <a href="https://twitch.tv/cornbl4ster">twitch.tv/cornbl4ster</a><br/>
+                <a href="https://stockpokeronline.com/">StockPoker</a><br/>
+                <a href="https://roundercasino.com/">RounderCasino</a>
 
                 
                 

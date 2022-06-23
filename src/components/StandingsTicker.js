@@ -13,9 +13,21 @@ async function makeAPICall(uid, tState) {
 
     if (uid && tState) {
 
+        console.log(tState)
+
+        if(tState === 'registering') {
+            const uri = `https://api.cornblaster.com/pokerdata/running/${uid}`
+            const response = await axios.get(uri)
+            if(response.data !== null) {
+                return response.data
+            }
+        }
+
         const uri = `https://api.cornblaster.com/pokerdata/${tState}/${uid}`
         const response = await axios.get(uri)
         return response.data
+
+
     }
 
 }
