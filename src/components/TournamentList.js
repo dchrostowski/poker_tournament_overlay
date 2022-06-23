@@ -57,10 +57,10 @@ function TournamentList(props) {
             if(sdo.toDateString() === today.toDateString()) {
                 let dayDescriptor
                 if(sdo.getHours() > 18 || sdo.getHours() <= 3) {
-                    dayDescriptor = "Tonight"
+                    dayDescriptor = "(Tonight"
                 }
                 else {
-                    dayDescriptor = "Today"
+                    dayDescriptor = "(Today"
                 }
 
                 formatted = `${dayDescriptor} at ${sdo.toLocaleTimeString()}`
